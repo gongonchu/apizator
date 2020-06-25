@@ -1,6 +1,5 @@
 package com.soprasteria.apizator;
 
-import com.soprasteria.apizator.ApiController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
