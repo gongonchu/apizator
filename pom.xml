@@ -10,11 +10,10 @@
 		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.soprasteria</groupId>
-	<artifactId>template</artifactId>
+	<artifactId>apizator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>template</name>
-	<description>Demo project for Spring Boot</description>
+	<name>apizator</name>
+	<description>Project to test API</description>
 
 	<properties>
 		<java.version>11</java.version>
