@@ -1,0 +1,29 @@
+include:
+  - project: "dep/library/ci-library"
+    ref: production
+    file: "main.yml"
+
+# Add dedicated job to build the application and archive build result
+build-application:
+  stage: build-application
+  image:
+    name: maven:3.6.0-jdk-11-slim
+  except:
+    - production
+  script:
+    - PROXY_HOST=$(echo  ${http_proxy} | sed -e "s/[^/]*\/\/\([^@]*@\)\?\([^:/]*\).*/\2/")
+    - PROXY_PORT=$(echo  ${http_proxy} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')
+    - export MAVEN_OPTS="-Dhttp.proxyHost=${PROXY_HOST} -Dhttp.proxyPort=${PROXY_PORT} -Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
+    - mvn package
+    - awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", instructions, " instructions covered"; print 100*covered/instructions, "% covered" }' target/site/jacoco/jacoco.csv
+  coverage: '/(\d+(\.\d+)? %) covered/'  
+  artifacts:
+    paths:
+      - target/
+    expire_in: 1 day
+
+license-finder:
+  before_script:
+    - PROXY_HOST=$(echo  ${http_proxy} | sed -e "s/[^/]*\/\/\([^@]*@\)\?\([^:/]*\).*/\2/")
+    - PROXY_PORT=$(echo  ${http_proxy} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')  
+    - export MAVEN_OPTS="-Dhttp.proxyHost=${PROXY_HOST} -Dhttp.proxyPort=${PROXY_PORT} -Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
