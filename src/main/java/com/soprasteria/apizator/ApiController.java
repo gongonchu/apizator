@@ -15,14 +15,10 @@ public class ApiController {
     @RequestMapping("/randomNumber")
     public ResponseEntity<Object> getRandomNumber(){
         try {
-        Long result = new Random().nextLong();
-        Long timer = ThreadLocalRandom.current().nextLong(500,5000);
-        System.out.println(timer);
-
-            TimeUnit.MILLISECONDS.sleep(timer);
-        return new ResponseEntity<Object>(result, HttpStatus.OK);
+        TimeUnit.MILLISECONDS.sleep(ThreadLocalRandom.current().nextLong(500,5000));
+        return new ResponseEntity<>(new Random().nextLong(), HttpStatus.OK);
         } catch (InterruptedException e) {
-            return new ResponseEntity<Object>("Timer error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Timer error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
