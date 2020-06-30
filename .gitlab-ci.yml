@@ -34,18 +34,21 @@ jmeter:
     name: egaillardon/jmeter-plugins:5.2.1-1.2.0
     entrypoint: [""]
   script:
+    - PROXY_HOST=$(echo  ${http_proxy} | sed -e "s/[^/]*\/\/\([^@]*@\)\?\([^:/]*\).*/\2/")
+    - PROXY_PORT=$(echo  ${http_proxy} | sed -e 's,^.*:,:,g' -e 's,.*:\([0-9]*\).*,\1,g' -e 's,[^0-9],,g')
+    - export MAVEN_OPTS="-Dhttp.proxyHost=${PROXY_HOST} -Dhttp.proxyPort=${PROXY_PORT} -Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
     - echo "------------------------------------------------------------"
     - echo APP_URL "$APP_URL"
     - echo OPENSHIFT_URL "$OPENSHIFT_URL"
     - echo OPENSHIFT_PROJECT "$OPENSHIFT_PROJECT"
     - echo "------------------------------------------------------------"
-    - jmeter -n -t target/jmeter/testFiles/Apizator.jmx -l target/jmeter/results/results.jtl -JHostUrl="$APP_URL"
-    - jmeter -g target/jmeter/results/results.jtl -o target/jmeter/reports/jmeter-report
+    - jmeter -n -t ./jmeter/testFiles/Apizator.jmx -l ./jmeter/results/results.jtl -JHostUrl="$APP_URL"
+    - jmeter -g ./jmeter/results/results.jtl -o ./jmeter/reports/jmeter-report
   artifacts:
     name: "${CI_JOB_ID}_${CI_JOB_NAME}"
     expire_in: 1 week
     paths:
-      - target/jmeter/results/results.jtl
+      - ./jmeter/results/results.jtl
       - jmeter-report/
   only:
     variables:
