@@ -39,4 +39,4 @@ jmeter:
   artifacts:
     paths:
       - ./jmeter/results/results.jtl
-      - jmeter-report/
+      - jmeter/reports/jmeter-report/
