@@ -38,4 +38,4 @@ jmeter:
     - export MAVEN_OPTS="-Dhttp.proxyHost=${PROXY_HOST} -Dhttp.proxyPort=${PROXY_PORT} -Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
   script:
     - echo APP_URL = "${APP_URL}"
-    - jmeter -n -t ./stage/performance/jmeter/apizator-test-plan.jmx -l ./results.jtl -JHostUrl="$APP_URL"
+    - jmeter -n -t ./stage/performance/jmeter/apizator-test-plan.jmx -l ./results.jtl -JHostUrl="${APP_URL}"
