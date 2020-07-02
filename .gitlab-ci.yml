@@ -29,6 +29,7 @@ license-finder:
     - export MAVEN_OPTS="-Dhttp.proxyHost=${PROXY_HOST} -Dhttp.proxyPort=${PROXY_PORT} -Dhttps.proxyHost=${PROXY_HOST} -Dhttps.proxyPort=${PROXY_PORT}"
 
 dependency-check:
+    stage: analysis
 
 jmeter:
   before_script:
