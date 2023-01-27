@@ -11,7 +11,10 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 public class ApiController {
-
+    @RequestMapping("/")
+    public ResponseEntity<Object> defautlPath(){
+        return new ResponseEntity<>("Welcome on my awesome randomApp", HttpStatus.OK);
+    }
     @RequestMapping("/randomNumber")
     public ResponseEntity<Object> getRandomNumber(){
         try {
